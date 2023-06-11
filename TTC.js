@@ -47,28 +47,29 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"}]), (re
   }catch(error){
     console.error(error);
   }
-  console.log("prepare to exec");
-  exec("cd uploads/ && LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -e",(error,stdout,stderr)=>{
+  console.log("prepare to query");
+  exec("cd uploads/ && LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -q",(error,stdout,stderr)=>{
     if(error){
       console.error(`error: ${error}`);
     return;
   }
     //console.log(`stdout:${stdout}`);
-    console.log("encData success uploaded");
     //console.error(`stderr:${stderr}`);
+    /*exec("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -q",(error,stdout,stderr)=>{
+      if(error){
+        console.error(`error: ${error}`);
+      return;
+    }
+      //console.log(`stdout:${stdout}`);
+      console.log("query success uploaded");
+      //console.error(`stderr:${stderr}`);
+    });*/
   });
+  console.log("query success uploaded");
   //sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./uploads/server -e
-  exec("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -q",(error,stdout,stderr)=>{
-    if(error){
-      console.error(`error: ${error}`);
-    return;
-  }
-    //console.log(`stdout:${stdout}`);
-    console.log("query success uploaded");
-    //console.error(`stderr:${stderr}`);
-  });
- 
  });
+  
+
   
  app.get('/download', (req, res)=>{
   res.download(path.join(__dirname,'uploads', 'data.csv'))
