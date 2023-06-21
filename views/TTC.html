@@ -1,0 +1,91 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="html.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>文件上傳</title>
+</head>
+
+<body>
+<h2>上傳文件</h2>
+<!--<form action="/your-endpoint" method="POST">-->
+    <select id="myComboBox" onchange="handleSelectChange()">
+    <option value="query" selected>Query</option>
+    <option value="count">Count</option>
+    <option value="insert">Insert</option>
+</select>
+<script>
+var comboBox = document.getElementById('myComboBox');
+
+    comboBox.addEventListener('change', function() {
+      var selectedValue = comboBox.value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/your-endpoint', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          console.log(xhr.responseText); // 打印从Node.js服务器返回的数据
+        }
+      };
+      xhr.send('value=' + encodeURIComponent(selectedValue));
+    });
+</script>
+<p>
+<!--<input type="submit" value="start">
+</form>-->
+<p>
+
+<form action="/uploads" method="post" enctype="multipart/form-data"id="form">
+    <input type="file" name="CC"  id = fileInput1>
+    <input type="file" name="key" id = fileInput2>
+    <input type="file" name="cts"  id = fileInput3>
+    <input type="file" name="encData" id = fileInput4>
+</form>
+<script>
+  function handleSelectChange() {
+    var select = document.getElementById("myComboBox");
+    var selectedOption = select.options[select.selectedIndex].value;
+
+    // 根据选定的选项禁用或启用文件输入元素
+    var fileInput1 = document.getElementById("fileInput1");
+    var fileInput2 = document.getElementById("fileInput2");
+    var fileInput3 = document.getElementById("fileInput3");
+    var fileInput4 = document.getElementById("fileInput4");
+
+    if (selectedOption === "query") {
+      fileInput1.disabled = true;
+      fileInput2.disabled = false;
+      fileInput3.disabled = false;
+      fileInput4.disabled = false;
+    } else if (selectedOption === "count") {
+      fileInput1.disabled = false;
+      fileInput2.disabled = true;
+      fileInput3.disabled = false;
+      fileInput4.disabled = false;
+    } else if (selectedOption === "insert") {
+      fileInput1.disabled = false;
+      fileInput2.disabled = false;
+      fileInput3.disabled = true;
+      fileInput4.disabled = false;
+    }
+  }
+</script>
+<button id="upload" type = "button">
+upload
+</button>
+<h2>下載文件</h2>
+    <button id="downloadBtn">download</button>
+    <script>
+    let downloadBtn = document.getElementById('downloadBtn')
+        downloadBtn.addEventListener('click', ()=>{
+            window.location.href = '/download'
+        })
+        </script>
+</body>
+</html>
+
+
+
+<meta charset="UTF-8">
