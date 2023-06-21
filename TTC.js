@@ -9,6 +9,7 @@ const express = require('express');
 const multer = require('multer');
 const app = express();
 const bodyParser = require('body-parser');
+let count = 0;
 
 const { exec, spawn } = require("child_process");
 
@@ -18,40 +19,7 @@ app.post('/your-endpoint', (req, res) => {
 
   // 在这里处理ComboBox的值
   console.log(selectedValue);
-
-  // 做其他操作...
-
-  // 返回响应给前端
-  res.send('Received the value: ' + selectedValue);
 });
-/*
-app.get('/', (req, res) => {
-  // 根据需要确定是否禁用<select>元素
-  const isDisabled_CC = true;
-  const isDisabled_key = true;
-  const isDisabled_cts = true;
-  const isDisabled_encData = true;
-  // 渲染模板，并传递禁用状态给模板
-  res.render('TTC', { isDisabled_CC ,isDisabled_cts,isDisabled_encData,isDisabled_key});
-});
-app.post('/your-endpoint', (req, res) => {
-  const selectOption = req.body.value;
-  console.log(selectOption);
-  app.get('/', (req, res) => {
-  const isDisabled_CC = true;
-  const isDisabled_key = true;
-  const isDisabled_cts = true;
-  const isDisabled_encData = true;
-  if(selectOption == "query")
-  {
-    isDisabled_CC = false;
-    isDisabled_encData = false;
-  }
-  // 渲染模板，并传递禁用状态给模板
-  res.render('TTC', { isDisabled_CC ,isDisabled_cts,isDisabled_encData,isDisabled_key});
-  });
-  
-});*/
 const storage = multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'uploads/')
@@ -75,7 +43,8 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     const uploadedFiles = req.files.CC;
     const key = req.files.key;
     const cts = req.files.cts; 
-  
+    
+
     //console.log('上傳的文件数量：', uploadedFiles.length);
     console.log('CC message:',uploadedFiles);
     console.log('key:',key);
@@ -89,7 +58,7 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     console.error(error);
   }
   console.log("prepare to query");
-  exec("cd uploads/ && ./server -e",(error,stdout,stderr)=>{
+  exec("cd uploads/ && LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -e",(error,stdout,stderr)=>{
     if(error){
       console.error(`error: ${error}`);
     return;
