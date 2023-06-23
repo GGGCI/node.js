@@ -60,22 +60,23 @@
       <span></span>
     </label>
     </form>
+    <button id="upload" type = "button" disabled >
+      upload
+    </button>
     <script>
-      let count = 0;
+      let count = [0,0,0,0];
+      let select = document.getElementById("myComboBox");     
       function checkFileInput(inputNumber) {
-        let fileInput = document.getElementById("fileInput" + inputNumber);       
-        if (fileInput.files.length > 0) {
-          count++;
-        }
-      }
-      function checkDisable()
-      {
-        let select = document.getElementById("myComboBox");
         var selectedOption = select.options[select.selectedIndex].value;
-        let upload = document.getElementById("upload");
+        let fileInput = document.getElementById("fileInput" + inputNumber); 
+        let upload = document.getElementById("upload");      
+        if (fileInput.files.length > 0) {
+          count[inputNumber-1] = 1;         
+        }
         if(selectedOption == "query")
         {
-          if(count != 4)
+          upload.disabled = false;
+          if (!count.every(element => element === 1)) 
           {
             upload.disabled = true;
           }
@@ -86,7 +87,7 @@
         }
         else if(selectedOption == "count")
         {
-          if(count != 4)
+          if (!count.every(element => element === 1)) 
           {
             upload.disabled = true;
           }
@@ -97,13 +98,17 @@
         }
         else
         {
-          if(count != 1)
+          for(let i = 0; i < 3; i++)
           {
-            upload.disabled = true;
+            count[i] = 0;
+          }
+          if(count[3] == 1)
+          {
+            upload.disabled = false;
           }
           else
           {
-            upload.disabled = false;
+            upload.disabled = true;
           }
         }
       }
@@ -148,9 +153,7 @@
     }
   }
 </script>
-<button id="upload" type = "button" onchange = "checkDisable()">
-upload
-</button>
+
 <h2>下載文件</h2>
     <button id="downloadBtn">download</button>
     <script>
