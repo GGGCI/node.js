@@ -14,12 +14,7 @@ let count = 0;
 const { exec, spawn } = require("child_process");
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.post('/your-endpoint', (req, res) => {
-  const selectedValue = req.body.value;
 
-  // 在这里处理ComboBox的值
-  console.log(selectedValue);
-});
 const storage = multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,'uploads/')
@@ -43,22 +38,25 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     const uploadedFiles = req.files.CC;
     const key = req.files.key;
     const cts = req.files.cts; 
-    
+    const encData = req.files.encData;
+    let selectedValue = req.body.select;
 
     //console.log('上傳的文件数量：', uploadedFiles.length);
     console.log('CC message:',uploadedFiles);
     console.log('key:',key);
     console.log('cts:',cts);
+    console.log('encData:',encData);
+    console.log('select:',selectedValue);
     res.send(JSON.stringify({
-      name: uploadedFiles.originalname,
-      size: uploadedFiles.size,
+      name: encData.originalname,
+      size: encData.size,
     }));
     console.log("file success upload");
   }catch(error){
     console.error(error);
   }
   console.log("prepare to query");
-  exec("cd uploads/ && LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -e",(error,stdout,stderr)=>{
+  /*exec("cd uploads/ && ./server -e",(error,stdout,stderr)=>{
     if(error){
       console.error(`error: ${error}`);
     return;
@@ -74,7 +72,7 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
       console.log("query success uploaded");
       //console.error(`stderr:${stderr}`);
     });*/
-  });
+  //});
   console.log("query success uploaded");
   //sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./uploads/server -e
  });

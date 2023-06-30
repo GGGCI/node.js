@@ -47,15 +47,16 @@
 						<header>
 							<div class="inner">
 								<h2>資料上傳</h2>
-								<p></p>
-								<select id="myComboBox" onchange="handleSelectChange()">
-									<option value="query" selected>Query</option>
-									<option value="count">Count</option>
-									<option value="insert">Insert</option>
-								</select>
-								<p>
-								<p>
+								
 								  <form action="/uploads" method="post" enctype="multipart/form-data"id="form" name="form1">
+									<p></p>
+									<select id="myComboBox" onchange="handleSelectChange()">
+										<option value="query" selected>Query</option>
+										<option value="count">Count</option>
+										<option value="insert">Insert</option>
+									</select>
+									<p>
+									<p>
 									<label class="upload" id="CC" >
 									  <span class="custom_button" >
 										Upload CC
@@ -84,9 +85,10 @@
 									  <input type="file" name="encData" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
 									  <span></span>
 									</label>
+									
 									</form>
 									<button id="upload" type = "button" disabled >
-									  upload
+										upload
 									</button>
 									<script>
 									  let count = [0,0,0,0];
@@ -154,7 +156,6 @@
 									var select = document.getElementById("myComboBox");
 									var selectedOption = select.options[select.selectedIndex].value;
 								
-									// 根据选定的选项禁用或启用文件输入元素
 									var fileInput1 = document.getElementById("fileInput1");
 									var fileInput2 = document.getElementById("fileInput2");
 									var fileInput3 = document.getElementById("fileInput3");

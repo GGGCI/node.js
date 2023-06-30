@@ -1,0 +1,170 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="html.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>文件上傳</title>
+</head>
+<style>
+  .upload>span:first-child{
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: rgb(182, 187, 128);
+  }
+  .upload>span:first-child:hover{
+    background-color: rgb(15, 15, 15);
+  }
+
+</style>
+
+<body>
+<h2>上傳文件</h2>
+<!--<form action="/your-endpoint" method="POST">-->
+    <select id="myComboBox" onchange="handleSelectChange()">
+    <option value="query" selected>Query</option>
+    <option value="count">Count</option>
+    <option value="insert">Insert</option>
+</select>
+<p>
+<!--<input type="submit" value="start">
+</form>-->
+<p>
+  <form action="/uploads" method="post" enctype="multipart/form-data"id="form" name="form1">
+    <label class="upload">
+      <span class="custom_button">
+        Upload CC
+      </span>
+      <input type="file" name = "CC" style="visibility:hidden; width: 0;"id="fileInput1"onchange="checkFileInput(1)">
+      <span></span>
+    </label>
+    <label class="upload">
+      <span class="custom_button">
+        Upload Key
+      </span>
+      <input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
+      <span></span>
+    </label>
+    <label class="upload">
+      <span class="custom_button">
+        Upload CTS
+      </span>
+      <input type="file" name="cts" style="visibility:hidden; width: 0;"id="fileInput3"onchange="checkFileInput(3)">
+      <span></span>
+    </label>
+    <label class="upload">
+      <span class="custom_button">
+        Upload EncData
+      </span>
+      <input type="file" name="encData" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
+      <span></span>
+    </label>
+    </form>
+    <button id="upload" type = "button" disabled >
+      upload
+    </button>
+    <script>
+      let count = [0,0,0,0];
+      let select = document.getElementById("myComboBox");     
+      function checkFileInput(inputNumber) {
+        var selectedOption = select.options[select.selectedIndex].value;
+        let fileInput = document.getElementById("fileInput" + inputNumber); 
+        let upload = document.getElementById("upload");      
+        if (fileInput.files.length > 0) {
+          count[inputNumber-1] = 1;         
+        }
+        if(selectedOption == "query")
+        {
+          upload.disabled = false;
+          if (!count.every(element => element === 1)) 
+          {
+            upload.disabled = true;
+          }
+          else
+          {
+            upload.disabled = false;
+          }
+        }
+        else if(selectedOption == "count")
+        {
+          if (!count.every(element => element === 1)) 
+          {
+            upload.disabled = true;
+          }
+          else
+          {
+            upload.disabled = false;
+          }
+        }
+        else
+        {
+          for(let i = 0; i < 3; i++)
+          {
+            count[i] = 0;
+          }
+          if(count[3] == 1)
+          {
+            upload.disabled = false;
+          }
+          else
+          {
+            upload.disabled = true;
+          }
+        }
+      }
+      </script>     
+    <script>
+      window.addEventListener('load', ()=>{
+        document.querySelectorAll('.upload>input').forEach( element => {
+          element.addEventListener('change', ({target})=>{
+            if(!target.files) return
+            let nextEl = target.nextElementSibling
+            nextEl.innerText = target.files[0].name
+          })
+        })
+      })
+    </script>
+<script>
+  function handleSelectChange() {
+    var select = document.getElementById("myComboBox");
+    var selectedOption = select.options[select.selectedIndex].value;
+
+    // 根据选定的选项禁用或启用文件输入元素
+    var fileInput1 = document.getElementById("fileInput1");
+    var fileInput2 = document.getElementById("fileInput2");
+    var fileInput3 = document.getElementById("fileInput3");
+    var fileInput4 = document.getElementById("fileInput4");
+
+    if (selectedOption === "query") {
+      fileInput1.disabled = false;
+      fileInput2.disabled = false;
+      fileInput3.disabled = false;
+      fileInput4.disabled = false;
+    } else if (selectedOption === "count") {
+      fileInput1.disabled = false;
+      fileInput2.disabled = false;
+      fileInput3.disabled = false;
+      fileInput4.disabled = false;
+    } else if (selectedOption === "insert") {
+      fileInput1.disabled = true;
+      fileInput2.disabled = true;
+      fileInput3.disabled = true;
+      fileInput4.disabled = false;
+    }
+  }
+</script>
+
+<h2>下載文件</h2>
+    <button id="downloadBtn">download</button>
+    <script>
+    let downloadBtn = document.getElementById('downloadBtn')
+        downloadBtn.addEventListener('click', ()=>{
+            window.location.href = '/download'
+        })
+        </script>
+</body>
+</html>
+
+
+
+<meta charset="UTF-8">
