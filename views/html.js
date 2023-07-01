@@ -13,10 +13,12 @@ window.addEventListener('load',()=>{
             processData:false,
             data:formData,
             success:function(res){
-                alert("upload success");
-                alert(selectedValue);
+              alert("upload success");
+              
             },
-            error:function(res){
+            error:function(xhr, status, error){
+              let response = JSON.parse(xhr.responseText);
+              alert(response.error);
             }
         })
         

@@ -39,19 +39,35 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     const key = req.files.key;
     const cts = req.files.cts; 
     const encData = req.files.encData;
-    let selectedValue = req.body.select;
+    let selectedValue = "query";
+    selectedValue = req.body.select;
 
     //console.log('上傳的文件数量：', uploadedFiles.length);
     console.log('CC message:',uploadedFiles);
     console.log('key:',key);
     console.log('cts:',cts);
     console.log('encData:',encData);
-    console.log('select:',selectedValue);
-    res.send(JSON.stringify({
-      name: encData.originalname,
-      size: encData.size,
-    }));
+
     console.log("file success upload");
+    if(selectedValue == "query")
+    {
+      res.send();
+    }
+    else if(selectedValue == "count")
+    {
+    }
+    else
+    {
+      exec("cd uploads/ && ./server -e",(error,stdout,stderr)=>{
+        if (error) 
+        {
+          res.status(500).json({error:error.message});
+        } else 
+        {
+          res.status(200).json({message:"upload success"});
+        }
+      });
+    }
   }catch(error){
     console.error(error);
   }
@@ -73,6 +89,7 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
       //console.error(`stderr:${stderr}`);
     });*/
   //});
+ 
   console.log("query success uploaded");
   //sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./uploads/server -e
  });
