@@ -52,19 +52,24 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     if(selectedValue == "query")
     {
       res.send();
+      
     }
     else if(selectedValue == "count")
     {
     }
     else
     {
-      exec("cd uploads/ && ./server -e",(error,stdout,stderr)=>{
+      exec("cd uploads/ && ./client -k",(error,stdout,stderr)=>{
         if (error) 
         {
           res.status(500).json({error:error.message});
+          console.log(error.message);
         } else 
         {
           res.status(200).json({message:"upload success"});
+          app.get('/download', (req, res)=>{
+            res.download(path.join(__dirname,'uploads', 'data.csv'))
+          })
         }
       });
     }
@@ -96,9 +101,24 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
   
 
   
- app.get('/download', (req, res)=>{
-  res.download(path.join(__dirname,'uploads', 'data.csv'))
-})
+//  app.post('/download', (req, res)=>{
+//   let selectedValue = "query";
+//   selectedValue = req.body.selected;
+//   console.log(selectedValue);
+//   if(selectedValue == "query")
+//   {
+//     let fileUrl1 = path.join(__dirname,'uploads', 'data.csv')
+//     res.json({ fileUrl: 'fileUrl1' });
+//   }
+//   else if(selectedValue == "count")
+//   {
+
+//   }
+//   else
+//   {
+
+//   }
+//})
 
 
 app.listen(port, ip, () => {

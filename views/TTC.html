@@ -8,7 +8,8 @@
 	<head>
 		<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-		<script src="html.js"></script>
+		<script src="upload.js"></script>
+		<script src="download.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<title>文件上傳下載</title>
 		<meta charset="utf-8" />
@@ -163,6 +164,8 @@
 									</script>
 								<script>
 								  function handleSelectChange() {
+									
+									
 									var select = document.getElementById("myComboBox");
 									var selectedOption = select.options[select.selectedIndex].value;
 								
@@ -170,11 +173,21 @@
 									var fileInput2 = document.getElementById("fileInput2");
 									var fileInput3 = document.getElementById("fileInput3");
 									var fileInput4 = document.getElementById("fileInput4");
+									let upload = document.getElementById("upload");
 									let labelCC = document.getElementById("CC");
 									let labelkey = document.getElementById("key");
 									let labelcts = document.getElementById("CTS");
-								
+									
 									if (selectedOption === "query") {
+										upload.disabled = false;
+										if (fileInput1.files.length > 0 && fileInput2.files.length > 0 && fileInput3.files.length > 0 && fileInput4.files.length > 0)
+										{
+											upload.disabled = false;
+										}
+										else
+										{
+											upload.disabled = true;
+										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
 										labelcts.style.visibility = "visible";
@@ -183,6 +196,14 @@
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									} else if (selectedOption === "count") {
+										if (fileInput1.files.length > 0 && fileInput2.files.length > 0 && fileInput3.files.length > 0 && fileInput4.files.length > 0)
+										{
+											upload.disabled = false;
+										}
+										else
+										{
+											upload.disabled = true;
+										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
 										labelcts.style.visibility = "visible";
@@ -191,7 +212,14 @@
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									} else if (selectedOption === "insert") {
-										
+										if (fileInput4.files.length > 0)
+										{
+											upload.disabled = false;
+										}
+										else
+										{
+											upload.disabled = true;
+										}
 										labelCC.style.visibility = "hidden";
 										labelkey.style.visibility = "hidden";
 										labelcts.style.visibility = "hidden";
@@ -207,7 +235,7 @@
 								<br>
 								<h2>資料下載</h2>
 								<p></p>
-								<button id="downloadBtn">download</button>
+								<button id="downloadBtn" disabled>download </button>
 								<script>
 								let downloadBtn = document.getElementById('downloadBtn')
 									downloadBtn.addEventListener('click', ()=>{
