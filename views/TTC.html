@@ -177,8 +177,10 @@
 									let labelCC = document.getElementById("CC");
 									let labelkey = document.getElementById("key");
 									let labelcts = document.getElementById("CTS");
+									let downloadButton = document.getElementById("downloadBtn");
 									
 									if (selectedOption === "query") {
+										downloadBtn.disabled = true;
 										upload.disabled = false;
 										if (fileInput1.files.length > 0 && fileInput2.files.length > 0 && fileInput3.files.length > 0 && fileInput4.files.length > 0)
 										{
@@ -196,6 +198,7 @@
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									} else if (selectedOption === "count") {
+										downloadBtn.disabled = true;
 										if (fileInput1.files.length > 0 && fileInput2.files.length > 0 && fileInput3.files.length > 0 && fileInput4.files.length > 0)
 										{
 											upload.disabled = false;
@@ -212,6 +215,7 @@
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									} else if (selectedOption === "insert") {
+										downloadBtn.disabled = true;
 										if (fileInput4.files.length > 0)
 										{
 											upload.disabled = false;

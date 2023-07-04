@@ -41,6 +41,7 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     const encData = req.files.encData;
     let selectedValue = "query";
     selectedValue = req.body.select;
+    
 
     //console.log('上傳的文件数量：', uploadedFiles.length);
     console.log('CC message:',uploadedFiles);

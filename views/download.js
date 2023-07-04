@@ -13,7 +13,7 @@ window.addEventListener('load',()=>{
             processData:false,
             data:formData1,
             success:function(res){   
-                window.location.href = response.fileUrl;
+              window.location.href = response.fileUrl;
             },
             error:function(xhr, status, error){
               let response = JSON.parse(xhr.responseText);
