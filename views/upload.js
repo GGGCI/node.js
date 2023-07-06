@@ -17,7 +17,11 @@ window.addEventListener('load',()=>{
             processData:false,
             data:formData,
             success:function(res){
-              alert("uplaod success");
+              alert(res.message);
+              if(selectedValue == insert)
+              {
+                downloadBtn.disabled = true;
+              }
               downloadBtn.disabled = false;
             },
             error:function(xhr, status, error){

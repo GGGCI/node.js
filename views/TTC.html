@@ -9,7 +9,6 @@
 		<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="upload.js"></script>
-		<script src="download.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<title>文件上傳下載</title>
 		<meta charset="utf-8" />
@@ -82,18 +81,18 @@
 									  <input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
 									  <span></span>
 									</label>
-									<label class="upload"id="CTS">
-									  <span class="custom_button" >
-										Upload CTS
-									  </span>
-									  <input type="file" name="cts" style="visibility:hidden; width: 0;"id="fileInput3"onchange="checkFileInput(3)">
-									  <span></span>
-									</label>
-									<label class="upload" id="encdata">
+									<label class="upload"id="encdata">
 									  <span class="custom_button" >
 										Upload EncData
 									  </span>
-									  <input type="file" name="encData" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
+									  <input type="file" name="encData" style="visibility:hidden; width: 0;"id="fileInput3"onchange="checkFileInput(3)">
+									  <span></span>
+									</label>
+									<label class="upload" id="CTS">
+									  <span class="custom_button" >
+										Upload CTS
+									  </span>
+									  <input type="file" name="cts" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
 									  <span></span>
 									</label>
 									
@@ -176,7 +175,7 @@
 									let upload = document.getElementById("upload");
 									let labelCC = document.getElementById("CC");
 									let labelkey = document.getElementById("key");
-									let labelcts = document.getElementById("CTS");
+							
 									let downloadButton = document.getElementById("downloadBtn");
 									
 									if (selectedOption === "query") {
@@ -192,7 +191,7 @@
 										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
-										labelcts.style.visibility = "visible";
+									
 										fileInput1.disabled = false;
 										fileInput2.disabled = false;
 										fileInput3.disabled = false;
@@ -209,7 +208,7 @@
 										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
-										labelcts.style.visibility = "visible";
+									
 										fileInput1.disabled = false;
 										fileInput2.disabled = false;
 										fileInput3.disabled = false;
@@ -226,10 +225,10 @@
 										}
 										labelCC.style.visibility = "hidden";
 										labelkey.style.visibility = "hidden";
-										labelcts.style.visibility = "hidden";
+								
 										fileInput1.disabled = true;
 										fileInput2.disabled = true;
-										fileInput3.disabled = true;
+										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									}
 								  }

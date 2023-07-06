@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const qs = require("querystring");
 const path = require("path");
-
+const unzipper = require('unzipper');
 const port = 3000;
 const ip = "127.0.0.1";
 const express = require('express');
@@ -32,7 +32,7 @@ app.get('', (req, res) =>{
   res.sendFile(path.join(__dirname,'views','TTC.html'));
 });
 
-app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:"encData"}]), (req, res) => {
+app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{name:"cts"}]), (req, res) => {
   // 文件上传后的处理逻辑
   try{
     const uploadedFiles = req.files.CC;
@@ -48,6 +48,34 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     console.log('key:',key);
     console.log('cts:',cts);
     console.log('encData:',encData);
+    fs.createReadStream('uploads/cts.zip')
+    .pipe(unzipper.Extract({ path: 'uploads' }))
+    .on('error', (err) => {
+      console.error('cts解壓縮失败:', err);
+    })
+    .on('finish', () => {
+      console.log('cts解壓縮完成');
+      
+    });
+    fs.createReadStream('uploads/encData.zip')
+    .pipe(unzipper.Extract({ path: 'uploads' }))
+    .on('error', (err) => {
+      console.error('encData解壓縮失败:', err);
+    })
+    .on('finish', () => {
+      console.log('encData解壓縮完成');
+      
+    });
+    // exec("unzip encData.zip",(error,stdout,stderr)=>{
+    //   if (error) 
+    //   {
+    //     res.status(500).json({error:error.message});
+    //     console.log(error.message);
+    //   } else 
+    //   {
+    //     //res.status(200).json({message:"insert success"});
+    //   }
+    // });
 
     console.log("file success upload");
     if(selectedValue == "query")
@@ -60,19 +88,17 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"cts"},{name:
     }
     else
     {
-      exec("cd uploads/ && ./client -k",(error,stdout,stderr)=>{
-        if (error) 
-        {
-          res.status(500).json({error:error.message});
-          console.log(error.message);
-        } else 
-        {
-          res.status(200).json({message:"upload success"});
-          app.get('/download', (req, res)=>{
-            res.download(path.join(__dirname,'uploads', 'data.csv'))
-          })
-        }
-      });
+      // exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
+      //   if (error) 
+      //   {
+      //     res.status(500).json({error:error.message});
+      //     console.log(error.message);
+      //   } else 
+      //   {
+      //     res.status(200).json({message:"insert success"});
+      //   }
+      // });
+      res.send();
     }
   }catch(error){
     console.error(error);
