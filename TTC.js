@@ -48,34 +48,32 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{n
     console.log('key:',key);
     console.log('cts:',cts);
     console.log('encData:',encData);
-    fs.createReadStream('uploads/cts.zip')
-    .pipe(unzipper.Extract({ path: 'uploads' }))
-    .on('error', (err) => {
-      console.error('cts解壓縮失败:', err);
-    })
-    .on('finish', () => {
-      console.log('cts解壓縮完成');
+    // fs.createReadStream('uploads/cts.zip')
+    // .pipe(unzipper.Extract({ path: 'uploads' }))
+    // .on('error', (err) => {
+    //   console.error('cts解壓縮失败:', err);
+    // })
+    // .on('finish', () => {
+    //   console.log('cts解壓縮完成');
       
-    });
-    fs.createReadStream('uploads/encData.zip')
-    .pipe(unzipper.Extract({ path: 'uploads' }))
-    .on('error', (err) => {
-      console.error('encData解壓縮失败:', err);
-    })
-    .on('finish', () => {
-      console.log('encData解壓縮完成');
-      
-    });
-    // exec("unzip encData.zip",(error,stdout,stderr)=>{
-    //   if (error) 
-    //   {
-    //     res.status(500).json({error:error.message});
-    //     console.log(error.message);
-    //   } else 
-    //   {
-    //     //res.status(200).json({message:"insert success"});
-    //   }
     // });
+    // fs.createReadStream('uploads/encData.zip')
+    // .pipe(unzipper.Extract({ path: 'uploads' }))
+    // .on('error', (err) => {
+    //   console.error('encData解壓縮失败:', err);
+    // })
+    // .on('finish', () => {
+    //   console.log('encData解壓縮完成');
+      
+    // });
+    exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
+      if (error) {
+        console.error('encData解壓縮失败:', error);
+        return;
+      }
+      
+      console.log('encData解壓縮成功');
+     });
 
     console.log("file success upload");
     if(selectedValue == "query")
@@ -88,17 +86,16 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{n
     }
     else
     {
-      // exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
-      //   if (error) 
-      //   {
-      //     res.status(500).json({error:error.message});
-      //     console.log(error.message);
-      //   } else 
-      //   {
-      //     res.status(200).json({message:"insert success"});
-      //   }
-      // });
-      res.send();
+      exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
+        if (error) 
+        {
+          res.status(500).json({error:error.message});
+          console.log(error.message);
+        } else 
+        {
+          res.status(200).json({message:"insert success"});
+        }
+      });
     }
   }catch(error){
     console.error(error);

@@ -18,7 +18,7 @@ window.addEventListener('load',()=>{
             data:formData,
             success:function(res){
               alert(res.message);
-              if(selectedValue == insert)
+              if(selectedValue == "insert")
               {
                 downloadBtn.disabled = true;
               }
