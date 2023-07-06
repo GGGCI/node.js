@@ -32,13 +32,14 @@ app.get('', (req, res) =>{
   res.sendFile(path.join(__dirname,'views','TTC.html'));
 });
 
-app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{name:"cts"}]), (req, res) => {
+app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"},{name:"cts.zip"}]), (req, res) => {
   // 文件上传后的处理逻辑
   try{
     const uploadedFiles = req.files.CC;
     const key = req.files.key;
-    const cts = req.files.cts; 
-    const encData = req.files.encData;
+    const encData = req.files["encData.zip"];
+    const cts = req.files["cts.zip"]; 
+
     let selectedValue = "query";
     selectedValue = req.body.select;
     
