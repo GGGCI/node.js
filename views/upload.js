@@ -18,11 +18,12 @@ window.addEventListener('load',()=>{
             data:formData,
             success:function(res){
               alert(res.message);
+              downloadBtn.disabled = false;
               if(selectedValue == "insert")
               {
                 downloadBtn.disabled = true;
               }
-              downloadBtn.disabled = false;
+             
             },
             error:function(xhr, status, error){
               let response = JSON.parse(xhr.responseText);
