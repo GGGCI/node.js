@@ -66,18 +66,19 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{n
     //   console.log('encData解壓縮完成');
       
     // });
-    exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
-      if (error) {
-        console.error('encData解壓縮失败:', error);
-        return;
-      }
-      
-      console.log('encData解壓縮成功');
-     });
+   
 
     console.log("file success upload");
     if(selectedValue == "query")
     {
+      exec("cd uploads/ && unzip cts.zip",(error,stdout,stderr)=>{
+        if (error) {
+          console.error('cts解壓縮失败:', error);
+          return;
+        }
+        
+        console.log('cts解壓縮成功');
+       });
       res.send();
       
     }
@@ -86,6 +87,22 @@ app.post('/uploads', upload.fields([{name:'key'},{name:"CC"},{name:"encData"},{n
     }
     else
     {
+      exec("cd uploads/ && rm -rf cts",(error,stdout,stderr)=>{
+        if (error) {
+          console.error('cts刪除失败:', error);
+          return;
+        }
+        
+        console.log('cts刪除成功');
+       });
+      exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
+        if (error) {
+          console.error('encData解壓縮失败:', error);
+          return;
+        }
+        
+        console.log('encData解壓縮成功');
+       });
       exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
         if (error) 
         {
