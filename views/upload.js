@@ -1,3 +1,5 @@
+
+
 window.addEventListener('load',()=>{
     document.getElementById("myComboBox").addEventListener("change", () => {
       });
@@ -8,6 +10,7 @@ window.addEventListener('load',()=>{
     submitButton.addEventListener('click', () => {
         let selectedValue = document.getElementById("myComboBox").value;
         let downloadBtn = document.getElementById("downloadBtn")
+        let downloadBtn1 = document.getElementById("downloadBtn1")
         let formData = new FormData(document.getElementById("form"));
         formData.append("select",selectedValue);
         $.ajax({
@@ -19,6 +22,11 @@ window.addEventListener('load',()=>{
             success:function(res){
               alert(res.message);
               downloadBtn.disabled = false;
+              downloadBtn1.disabled = false;
+              if(selectedValue != "query")
+              {
+                downloadBtn1,disabled = true;
+              }
               if(selectedValue == "insert")
               {
                 downloadBtn.disabled = true;

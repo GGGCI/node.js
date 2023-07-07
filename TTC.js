@@ -49,6 +49,14 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     console.log('key:',key);
     console.log('cts:',cts);
     console.log('encData:',encData);
+    exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
+      if (error) {
+        console.error('encData解壓縮失败:', error);
+        return;
+      }
+      
+      console.log('encData解壓縮成功');
+     });
     // fs.createReadStream('uploads/cts.zip')
     // .pipe(unzipper.Extract({ path: 'uploads' }))
     // .on('error', (err) => {
@@ -71,19 +79,35 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     console.log("file success upload");
     if(selectedValue == "query")
     {
+      exec("cd uploads/ && rm -rf evalData && rm -rf cmpResult && rm -rf cts",(error,stdout,stderr)=>{
+        if (error) {
+          console.error('Delete失败:', error);
+          return;
+        }
+        
+        console.log('Delete成功');
+       });
       exec("cd uploads/ && ./server -q",(error,stdout,stderr)=>{
         if (error) 
         {
           res.status(500).json({error:error.message});
           console.log(error.message);
-        } else 
+        } 
+        else 
         {
           res.status(200).json({message:"query success"});
+          exec("cd uploads/ && zip -r evalData.zip evalData",(error,stdout,stderr)=>{
+            if (error) {
+              console.error('zipeval fail:', error);
+              return;
+            }
+            
+            console.log('zipeval成功');
+           });
         }
       });
-      // app.get('/download', (req, res)=>{
-      //   res.download(path.join(__dirname,'uploads', 'data.csv'))
-      // })
+      
+      
       
     }
     else if(selectedValue == "count")
@@ -91,14 +115,14 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     }
     else
     {
-      exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
+      exec("cd uploads/ && rm -rf cts",(error,stdout,stderr)=>{
         if (error) {
-          console.error('encData解壓縮失败:', error);
+          console.error('cts Delete失败:', error);
           return;
         }
         
-        console.log('encData解壓縮成功');
-       });
+        console.log('cts Delete成功');
+       }); 
       exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
         if (error) 
         {
@@ -156,7 +180,12 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
 
 //   }
 //})
-
+app.get('/downloadquery', (req, res)=>{
+  res.download(path.join(__dirname,'uploads', 'evalData.zip'))
+})
+app.get('/downloadquery1', (req, res)=>{
+  res.download(path.join(__dirname,'uploads', 'cmpResults'))
+}) 
 
 app.listen(port, ip, () => {
   console.log(`Server is running at http://${ip}:${port}`);
