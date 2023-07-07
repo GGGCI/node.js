@@ -67,35 +67,20 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     //   console.log('encData解壓縮完成');
       
     // });
-<<<<<<< HEAD
-
-=======
-   
->>>>>>> 863402f (insert)
 
     console.log("file success upload");
     if(selectedValue == "query")
     {
-<<<<<<< HEAD
-      exec("cd uploads/ && rm -rf encData", (error, stdout, stderr) => {
-        if (error) {
-          console.error('删除encData失敗:', error);
-          return;
+      exec("cd uploads/ && ./server -q",(error,stdout,stderr)=>{
+        if (error) 
+        {
+          res.status(500).json({error:error.message});
+          console.log(error.message);
+        } else 
+        {
+          res.status(200).json({message:"query success"});
         }
-      
-        console.log('encData删除成功');
       });
-=======
->>>>>>> 863402f (insert)
-      exec("cd uploads/ && unzip cts.zip",(error,stdout,stderr)=>{
-        if (error) {
-          console.error('cts解壓縮失败:', error);
-          return;
-        }
-        
-        console.log('cts解壓縮成功');
-       });
-      res.send();
       // app.get('/download', (req, res)=>{
       //   res.download(path.join(__dirname,'uploads', 'data.csv'))
       // })
@@ -106,25 +91,6 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     }
     else
     {
-<<<<<<< HEAD
-      exec("cd uploads/ && rm -rf cts", (error, stdout, stderr) => {
-        if (error) {
-          console.error('删除cts失敗:', error);
-          return;
-        }
-      
-        console.log('cts删除成功');
-      });
-=======
-      exec("cd uploads/ && rm -rf cts",(error,stdout,stderr)=>{
-        if (error) {
-          console.error('cts刪除失败:', error);
-          return;
-        }
-        
-        console.log('cts刪除成功');
-       });
->>>>>>> 863402f (insert)
       exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
         if (error) {
           console.error('encData解壓縮失败:', error);
