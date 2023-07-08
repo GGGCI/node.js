@@ -30,6 +30,7 @@ window.addEventListener('load',()=>{
               if(selectedValue == "insert")
               {
                 downloadBtn.disabled = true;
+                downloadBtn1,disabled = true;
               }
              
             },
