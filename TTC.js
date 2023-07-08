@@ -79,7 +79,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     console.log("file success upload");
     if(selectedValue == "query")
     {
-      exec("cd uploads/ && rm -rf evalData && rm -rf cmpResult && rm -rf cts",(error,stdout,stderr)=>{
+      exec("cd uploads/ && rm -rf evalData && rm -rf cmpResults && rm -rf cts && rm -rf evalData.zip && rm -rf cmpResults.zip",(error,stdout,stderr)=>{
         if (error) {
           console.error('Delete失败:', error);
           return;
@@ -96,13 +96,13 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
         else 
         {
           res.status(200).json({message:"query success"});
-          exec("cd uploads/ && zip -r evalData.zip evalData",(error,stdout,stderr)=>{
+          exec("cd uploads/ && zip evalData evalData/* && zip cmpResults cmpResults/*",(error,stdout,stderr)=>{
             if (error) {
-              console.error('zipeval fail:', error);
+              console.error('zip fail:', error);
               return;
             }
             
-            console.log('zipeval成功');
+            console.log('zip成功');
            });
         }
       });
@@ -123,7 +123,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
         
         console.log('cts Delete成功');
        }); 
-      exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
+      exec("cd uploads/ && zip cts.zip",(error,stdout,stderr)=>{
         if (error) 
         {
           res.status(500).json({error:error.message});
@@ -137,54 +137,16 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
   }catch(error){
     console.error(error);
   }
-  console.log("prepare to query");
-  /*exec("cd uploads/ && ./server -e",(error,stdout,stderr)=>{
-    if(error){
-      console.error(`error: ${error}`);
-    return;
-  }
-    //console.log(`stdout:${stdout}`);
-    //console.error(`stderr:${stderr}`);
-    /*exec("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./server -q",(error,stdout,stderr)=>{
-      if(error){
-        console.error(`error: ${error}`);
-      return;
-    }
-      //console.log(`stdout:${stdout}`);
-      console.log("query success uploaded");
-      //console.error(`stderr:${stderr}`);
-    });*/
-  //});
- 
+  console.log("prepare to query"); 
   console.log("query success uploaded");
   //sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./uploads/server -e
  });
   
-
-  
-//  app.post('/download', (req, res)=>{
-//   let selectedValue = "query";
-//   selectedValue = req.body.selected;
-//   console.log(selectedValue);
-//   if(selectedValue == "query")
-//   {
-//     let fileUrl1 = path.join(__dirname,'uploads', 'data.csv')
-//     res.json({ fileUrl: 'fileUrl1' });
-//   }
-//   else if(selectedValue == "count")
-//   {
-
-//   }
-//   else
-//   {
-
-//   }
-//})
 app.get('/downloadquery', (req, res)=>{
   res.download(path.join(__dirname,'uploads', 'evalData.zip'))
 })
 app.get('/downloadquery1', (req, res)=>{
-  res.download(path.join(__dirname,'uploads', 'cmpResults'))
+  res.download(path.join(__dirname,'uploads', 'cmpResults.zip'))
 }) 
 
 app.listen(port, ip, () => {
