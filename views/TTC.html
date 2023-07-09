@@ -16,19 +16,33 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<style>
-			/*  */
-					.upload>span:first-child{   
-						color:rgb(248, 242, 242);
-						border-radius: 5px;
-						padding: 5px 10px;
-						background-color: rgb(60, 6, 148);
-					}
-					.upload>span:first-child:hover{
-						background-color: rgb(15, 15, 15);
-						color: rgb(226, 223, 24);
-					}
-		
-				</style>
+			.upload>span:first-child{   
+				color:rgb(248, 242, 242);
+				border-radius: 5px;
+				padding: 5px 10px;
+				background-color: rgb(60, 6, 148);
+			}
+			.upload>span:first-child:hover{
+				background-color: rgb(15, 15, 15);
+				color: rgb(226, 223, 24);
+			}
+			/* add by leo */
+			.upload>span:last-child{
+				display: none;
+				width: 2.5em;
+				height: 2.5em;
+				vertical-align: bottom;
+			}
+			@keyframes svgAnimation{
+				from { transform:rotate(0deg);}
+				to {transform:rotate(360deg);}
+			}
+			.upload>span:last-child:hover{
+				animation-name: svgAnimation;
+				animation-duration: 1s;
+				
+			}
+			</style>
 	</head>
 	<body class="is-preload">
 
@@ -73,12 +87,14 @@
 									  </span>
 									  <input type="file" name = "CC" style="visibility:hidden; width: 0;"id="fileInput1"onchange="checkFileInput(1)">
 									  <span></span>
+									  <span></span>
 									</label>
 									<label class="upload" id="key">
 									  <span class="custom_button" >
 										Upload Key
 									  </span>
 									  <input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
+									  <span></span>
 									  <span></span>
 									</label>
 									<label class="upload"id="encdata">
@@ -87,6 +103,7 @@
 									  </span>
 									  <input type="file" name="encData.zip" style="visibility:hidden; width: 0;"id="fileInput3"onchange="checkFileInput(3)">
 									  <span></span>
+									  <span></span>
 									</label>
 									<label class="upload" id="CTS">
 									  <span class="custom_button" >
@@ -94,9 +111,32 @@
 									  </span>
 									  <input type="file" name="cts.zip" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
 									  <span></span>
+									  <span></span>
 									</label>
 									
 									</form>
+									<script>
+										window.addEventListener('load', ()=>{
+											document.querySelectorAll('.upload>input').forEach( input => {
+											  let textSpan = input.nextElementSibling
+											  let closeBtn = input.nextElementSibling.nextElementSibling
+											  closeBtn.innerHTML = '<svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'
+											  
+											  input.addEventListener('change', ({target})=>{
+												if(target.files.length===0) return
+												textSpan.innerText = target.files[0].name
+												closeBtn.style.display = 'inline-block'
+											  })
+											  closeBtn.addEventListener("click", (e)=>{
+												e.preventDefault()
+												input.value = ''
+												textSpan.innerText = ""
+												closeBtn.style.display = 'none'
+												input.dispatchEvent(new Event('change'))
+											  })
+											})
+										})
+										</script>
 									<button id="upload" type = "button" disabled >
 										upload
 									</button>
