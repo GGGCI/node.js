@@ -106,7 +106,7 @@
 									  <span></span>
 									</label>
 									<label class="upload" id="CTS">
-									  <span class="custom_button" >
+									  <span class="custom_button" id = insert.zip>
 										Upload CTS.zip
 									  </span>
 									  <input type="file" name="cts.zip" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
@@ -215,10 +215,11 @@
 							
 									let downloadButton = document.getElementById("downloadBtn");
 									let downloadButton1 = document.getElementById("downloadBtn1");
-									
+									const customButton = document.getElementById("insert.zip")
 									if (selectedOption === "query") {
 										downloadBtn.disabled = true;
 										upload.disabled = false;
+										customButton.textContent = 'upload cts.zip';
 										if (fileInput4.files.length > 0)
 										{
 											upload.disabled = false;
@@ -236,11 +237,10 @@
 										fileInput4.disabled = false;
 									} else if (selectedOption === "count") {
 										downloadBtn.disabled = true;
-										downloadBtn1.disabled = true;
-										const uploadLabel = document.querySelector('.upload');
-										const customButton = uploadLabel.querySelector('.custom_button');
+										downloadBtn1.disabled = true;										
+										customButton.textContent = 'upload cts.zip';
 
-										customButton.textContent = 'Insert.zip';
+										
 										if (fileInput4.files.length > 0)
 										{
 											upload.disabled = false;
@@ -257,6 +257,7 @@
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
 									} else if (selectedOption === "insert") {
+										customButton.textContent = 'upload Insert.zip';
 										downloadBtn.disabled = true;
 										downloadBtn1.disabled = true;
 										if (fileInput4.files.length > 0)
