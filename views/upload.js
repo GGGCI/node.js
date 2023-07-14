@@ -13,7 +13,6 @@ window.addEventListener('load',()=>{
     submitButton.addEventListener('click', () => {
         let selectedValue = document.getElementById("myComboBox").value;
         let downloadBtn = document.getElementById("downloadBtn")
-        let downloadBtn1 = document.getElementById("downloadBtn1")
         let fileInput3 = document.getElementById("fileInput3");
         let is_fileinput3 = false;
         if(fileInput3.files.length > 0)
@@ -37,15 +36,9 @@ window.addEventListener('load',()=>{
             success:function(res){
               alert(res.message);
               downloadBtn.disabled = false;
-              downloadBtn1.disabled = false;
-              if(selectedValue != "query")
-              {
-                downloadBtn1.disabled = true;
-              }
               if(selectedValue == "insert")
               {
                 downloadBtn.disabled = true;
-                downloadBtn1.disabled = true;
               }
               
             },
