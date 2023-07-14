@@ -101,7 +101,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
       else 
       {
         res.status(200).json({message:"query success"});
-        const { stdout:stdout2, stderr:stderr2, error: error2 } = await exec("cd uploads/ && zip evalData evalData/* && zip cmpResults cmpResults/*");
+        const { stdout:stdout2, stderr:stderr2, error: error2 } = await exec("cd uploads/ && zip queryData queryData/*");
         //console.log('stdout:', stdout2);
         console.error('zip:', stderr2);
         // exec("cd uploads/ && zip evalData evalData/* && zip cmpResults cmpResults/*",(error,stdout,stderr)=>{
@@ -212,7 +212,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
  });
   
 app.get('/downloadquery', (req, res)=>{
-  res.download(path.join(__dirname,'uploads', 'evalData.zip'))
+  res.download(path.join(__dirname,'uploads', 'queryData.zip'))
 })
 app.get('/downloadcount', (req, res)=>{
   res.download(path.join(__dirname,'uploads', 'countResult.zip'))
