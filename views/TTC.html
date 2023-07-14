@@ -284,12 +284,10 @@
 								<h2>資料下載</h2>
 								<p></p>
 								<button id="downloadBtn" disabled>download </button>
-								<button id="downloadBtn1" disabled>download </button>
 								<script>
 								let submitButton = document.getElementById("upload");
 								
 								let downloadBtn = document.getElementById('downloadBtn')
-								let downloadBtn1 = document.getElementById('downloadBtn1')
 								submitButton.addEventListener('click', () => {
 									let combobox = document.getElementById('myComboBox').value;
 									downloadBtn.addEventListener('click', ()=>{
@@ -301,13 +299,7 @@
 										{
 											window.location.href = '/downloadcount'
 										}
-									})
-									downloadBtn1.addEventListener('click', ()=>{
-										if(combobox == "query")
-										{
-											window.location.href = '/downloadquery1'
-										}
-									})
+									})							
 								});
 								</script>
 								</div>					

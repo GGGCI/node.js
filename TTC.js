@@ -29,14 +29,12 @@ const storage = multer.diskStorage({
 const upload = multer({ 
   storage: storage,
  });
-//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('views'));
 app.get('', (req, res) =>{
   res.sendFile(path.join(__dirname,'views','TTC.html'));
 });
 
 app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"},{name:"cts.zip"}]), async (req, res) => {
-  // 文件上传后的处理逻辑
   try{
     const uploadedFiles = req.files.CC;
     const key = req.files.key;
@@ -52,24 +50,9 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
       const { stdout, stderr } = await exec("cd uploads/ && rm -rf encData");
       console.log('stdout:', stdout);
       console.error('encData:', stderr);
-      // exec("cd uploads/ && rm -rf encData",(error,stdout,stderr)=>{
-      //   if (error) {
-      //     console.error('encData刪除失敗:', error);
-      //     return;
-      //   }
-        
-      //   console.log('encData刪除成功');
-      //  });
       const { stdout1, stderr1 } = await exec("cd uploads/ && unzip encData.zip");
       console.log('stdout:', stdout1);
       console.error('encData.zip:', stderr1);
-      // exec("cd uploads/ && unzip encData.zip",(error,stdout,stderr)=>{
-      //   if (error) {
-      //     console.error('encData解壓縮失败:', error);
-      //     return;
-      //   }        
-      //   console.log('encData解壓縮成功');
-      //  });
     }
     console.log('CC message:',uploadedFiles);
     console.log('key:',key);
@@ -79,17 +62,9 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     console.log("file success upload");
     if(selectedValue == "query")
     {
-      const { stdout:stdout, stderr:stderr, error: error } = await exec("cd uploads/ && rm -rf evalData && rm -rf cmpResults && rm -rf cts && rm -rf evalData.zip && rm -rf cmpResults.zip");
+      const { stdout:stdout, stderr:stderr, error: error } = await exec("cd uploads/ && rm -rf queryData && rm -rf queryData.zip && rm -rf cts");
       //console.log('stdout:', stdout);
       console.error('query_output:', stderr);
-      // exec("cd uploads/ && rm -rf evalData && rm -rf cmpResults && rm -rf cts && rm -rf evalData.zip && rm -rf cmpResults.zip",(error,stdout,stderr)=>{
-      //   if (error) {
-      //     console.error('query Delete失败:', error);
-      //     return;
-      //   }
-        
-      //   console.log('query Delete成功');
-      //  });
       const { stdout:stdout1, stderr:stderr1, error: error1 } = await exec("cd uploads/ && ./server -q");
       console.log('stdout:', stdout1);
       console.error('encData:', stderr1);
@@ -104,35 +79,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
         const { stdout:stdout2, stderr:stderr2, error: error2 } = await exec("cd uploads/ && zip queryData queryData/*");
         //console.log('stdout:', stdout2);
         console.error('zip:', stderr2);
-        // exec("cd uploads/ && zip evalData evalData/* && zip cmpResults cmpResults/*",(error,stdout,stderr)=>{
-        //   if (error) {
-        //     console.error('zip fail:', error);
-        //     return;
-        //   }
-        
-        //   console.log('zip成功');
-        //  });
       }
-      // exec("cd uploads/ && ./server -q",(error,stdout,stderr)=>{
-      //   if (error) 
-      //   {
-      //     res.status(500).json({error:error.message});
-      //     console.log(error.message);
-      //   } 
-      //   else 
-      //   {
-      //     res.status(200).json({message:"query success"});
-      //     exec("cd uploads/ && zip evalData evalData/* && zip cmpResults cmpResults/*",(error,stdout,stderr)=>{
-      //       if (error) {
-      //         console.error('zip fail:', error);
-      //         return;
-      //       }
-            
-      //       console.log('zip成功');
-      //      });
-      //   }
-      // });
-     
     }
     else if(selectedValue == "count")
     {
@@ -150,23 +97,6 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
       {
         res.status(200).json({message:"count success"});
       }
-      // exec("cd uploads/ && rm -rf countResult.zip && rm -rf countResult && rm -rf cts",(error,stdout,stderr)=>{
-      //   if (error) {
-      //     console.error('countResult.zip Delete失敗:', error);
-      //     return;
-      //   }
-      //   console.log('countResult.zip Delete成功');
-      //  }); 
-      //  exec("cd uploads/ && ./server -c",(error,stdout,stderr)=>{
-      //   if (error) 
-      //   {
-      //     res.status(500).json({error:error.message});
-      //     console.log(error.message);
-      //   } else 
-      //   {
-      //     res.status(200).json({message:"count success"});
-      //   }
-      // });
     }
     else
     {
@@ -184,24 +114,6 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
       {
         res.status(200).json({message:"insert success"});
       }
-      // exec("cd uploads/ && rm -rf insert && rm -rf encData.zip",(error,stdout,stderr)=>{
-      //   if (error) {
-      //     console.error('insert encData Delete失败:', error);
-      //     return;
-      //   }
-        
-      //   console.log('insert encData Delete成功');
-      //  }); 
-      //  exec("cd uploads/ && ./server -a",(error,stdout,stderr)=>{
-      //   if (error) 
-      //   {
-      //     res.status(500).json({error:error.message});
-      //     console.log(error.message);
-      //   } else 
-      //   {
-      //     res.status(200).json({message:"insert success"});
-      //   }
-      // });
     }
   }catch(error){
     console.error(error);
@@ -217,9 +129,6 @@ app.get('/downloadquery', (req, res)=>{
 app.get('/downloadcount', (req, res)=>{
   res.download(path.join(__dirname,'uploads', 'countResult.zip'))
 })
-app.get('/downloadquery1', (req, res)=>{
-  res.download(path.join(__dirname,'uploads', 'cmpResults.zip'))
-}) 
 
 app.listen(port, ip, () => {
   console.log(`Server is running at http://${ip}:${port}`);
