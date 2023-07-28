@@ -1,9 +1,6 @@
-
-
 window.addEventListener('load',()=>{
     document.getElementById("myComboBox").addEventListener("change", () => {
       });
-
     let selected = document.getElementById("myComboBox");
     selected.selectedIndex = 0;
     let submitButton = document.getElementById("upload");
@@ -14,6 +11,8 @@ window.addEventListener('load',()=>{
         let selectedValue = document.getElementById("myComboBox").value;
         let downloadBtn = document.getElementById("downloadBtn")
         let fileInput3 = document.getElementById("fileInput3");
+        const loadingMask = document.getElementById("loading-mask")
+        loadingMask.style.display = 'flex'
         let is_fileinput3 = false;
         if(fileInput3.files.length > 0)
         {
@@ -34,6 +33,7 @@ window.addEventListener('load',()=>{
             processData:false,
             data:formData,
             success:function(res){
+              loadingMask.style.display = 'none'
               alert(res.message);
               downloadBtn.disabled = false;
               if(selectedValue == "insert")
@@ -43,10 +43,25 @@ window.addEventListener('load',()=>{
               
             },
             error:function(xhr, status, error){
+              loadingMask.style.display = 'none'
               let response = JSON.parse(xhr.responseText);
-              console.log(xhr.responseText);
+              console.log("xhr.responseText:",xhr.responseText);
               alert(response.error);
               downloadBtn.disabled = true;
+            },
+            xhr: () => {
+              const progressBar = document.getElementById("bar")
+              const text = document.getElementById("text")
+              const xhr = new window.XMLHttpRequest();
+              xhr.upload.addEventListener("progress", (event) => {
+                if(event.lengthComputable) {
+                  const percent = Math.floor((event.loaded / event.total) * 100)  + "%"
+                  progressBar.style.width = percent
+                  text.innerText = percent
+                  console.log(percent) 
+                }
+              }, false)
+              return xhr
             }
         })
         

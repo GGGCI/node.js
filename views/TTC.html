@@ -29,23 +29,93 @@
 			/* add by leo */
 			.upload>span:last-child{
 				display: none;
-				width: 2.5em;
-				height: 2.5em;
+				width: 30px;
+				height: 30px;
 				vertical-align: bottom;
 			}
-			@keyframes svgAnimation{
+			/* @keyframes svgAnimation{
 				from { transform:rotate(0deg);}
 				to {transform:rotate(360deg);}
-			}
+			} */
 			.upload>span:last-child:hover{
 				animation-name: svgAnimation;
-				animation-duration: 1s;
+				animation-duration: 0.1s;
 				
 			}
+			#loading-mask{
+						display: flex;
+						position: fixed;
+						height: 100%;
+						width: 100%;
+						background-color: rgba(0,0,0,0.75);
+						justify-content: center;
+						align-items: center;
+						display: none;
+					}
+					.loader{
+						display: block;
+						position: relative;
+						height: 32px;
+						width: 200px;
+						background: #fff;
+						border:2px solid #fff;
+						color: red;
+						overflow: hidden;
+					}
+					#bar{
+						content: '';
+						background: red;
+						position: absolute;
+						left: 0;
+						top: 0;
+						width: 0;
+						height: 100%;
+					}
+					#text{
+						position: absolute;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						text-align: center;
+						font-size: 24px;
+						line-height: 32px;
+						color: rgb(0,255,255);
+						mix-blend-mode: difference;
+					}
+  
+					@keyframes loading {
+						0% { width: 0 }
+						100% { width: 100% }
+					}
+					@keyframes percentage {
+						0% { content: "0%"}
+						5% { content: "5%"}
+						10% { content: "10%"}
+						20% { content: "20%"}
+						30% { content: "30%"}
+						40% { content: "40%"}
+						50% { content: "50%"}
+						60% { content: "60%"}
+						70% { content: "70%"}
+						80% { content: "80%"}
+						90% { content: "90%"}
+						95% { content: "95%"}
+						96% { content: "96%"}
+						97% { content: "97%"}
+						98% { content: "98%"}
+						99% { content: "99%"}
+						100% { content: "100%"}
+					}
 			</style>
 	</head>
 	<body class="is-preload">
-
+		<div id="loading-mask">
+			<span class="loader">
+				<span id="bar" />
+				<span id="text">0%</span>
+			</span>
+		</div>
 		<!-- Page Wrapper -->
 			<div id="page-wrapper">
 
@@ -64,39 +134,31 @@
 						<header>
 							<div class="inner">
 								<h2>使用說明</h2>
-								1. 先選擇下拉式選單要執行的選項
+								1. 上傳CC、KEY、ENCDATA.ZIP，假如沒有要換key或更換資料庫，其中CC、KEY、ENCDATA.ZIP只要上傳過一次即可
 								<br><br>
-								2. 之後上傳所需要的檔案
+								2. 之後選擇下拉式選單要執行的選項，然後依據選單所提示要上傳的CTS.ZIP或INSERT.ZIP並按下UPLOAD&RUN按鈕並"耐心"等待
 								<br><br>
-								3. 上傳完之後即可下載所需要的檔案
+								3. 上傳完執行之後按下下載按鈕即可下載所需要的檔案
 								<br><br>
 								<h2>資料上傳</h2>
 								
 								  <form action="/uploads" method="post" enctype="multipart/form-data"id="form" name="form1">
-									<p></p>
-									<select id="myComboBox" onchange="handleSelectChange()">
-										<option value="query" selected>Query</option>
-										<option value="count">Count</option>
-										<option value="insert">Insert</option>
-									</select>
-									<p>
-									<p>
 									<label class="upload" id="CC" >
-									  <span class="custom_button" >
-										Upload CC
-									  </span>
-									  <input type="file" name = "CC" style="visibility:hidden; width: 0;"id="fileInput1"onchange="checkFileInput(1)">
-									  <span></span>
-									  <span></span>
-									</label>
-									<label class="upload" id="key">
-									  <span class="custom_button" >
-										Upload Key
-									  </span>
-									  <input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
-									  <span></span>
-									  <span></span>
-									</label>
+										<span class="custom_button" >
+										  Upload CC
+										</span>
+										<input type="file" name = "CC" style="visibility:hidden; width: 0;"id="fileInput1"onchange="checkFileInput(1)">
+										<span></span>
+										<span></span>
+									  </label>
+									  <label class="upload" id="key">
+										<span class="custom_button" >
+										  Upload Key
+										</span>
+										<input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
+										<span></span>
+										<span></span>
+									  </label>
 									<label class="upload"id="encdata">
 									  <span class="custom_button" >
 										Upload EncData.zip
@@ -105,6 +167,14 @@
 									  <span></span>
 									  <span></span>
 									</label>
+									<p></p>
+									<select id="myComboBox" onchange="handleSelectChange()">
+										<option value="query" selected>Query</option>
+										<option value="count">Count</option>
+										<option value="insert">Insert</option>
+									</select>
+									<p>
+									<p>
 									<label class="upload" id="CTS">
 									  <span class="custom_button" id = insert.zip>
 										Upload CTS.zip
@@ -112,15 +182,17 @@
 									  <input type="file" name="cts.zip" style="visibility:hidden; width: 0;" id="fileInput4"onchange="checkFileInput(4)">
 									  <span></span>
 									  <span></span>
-									</label>
-									
+									</label>									
 									</form>
+									<button id="upload" type = "button" disabled >
+										upload&run
+									</button>
 									<script>
 										window.addEventListener('load', ()=>{
 											document.querySelectorAll('.upload>input').forEach( input => {
 											  let textSpan = input.nextElementSibling
 											  let closeBtn = input.nextElementSibling.nextElementSibling
-											  closeBtn.innerHTML = '<svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>'
+											  closeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M18 6V16.2C18 17.8802 18 18.7202 17.673 19.362C17.3854 19.9265 16.9265 20.3854 16.362 20.673C15.7202 21 14.8802 21 13.2 21H10.8C9.11984 21 8.27976 21 7.63803 20.673C7.07354 20.3854 6.6146 19.9265 6.32698 19.362C6 18.7202 6 17.8802 6 16.2V6M14 10V17M10 10V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'
 											  
 											  input.addEventListener('change', ({target})=>{
 												if(target.files.length===0) return
@@ -137,9 +209,7 @@
 											})
 										})
 										</script>
-									<button id="upload" type = "button" disabled >
-										upload
-									</button>
+
 									<script>
 									  let count = [0,0,0,0];
 									  let select = document.getElementById("myComboBox");     
