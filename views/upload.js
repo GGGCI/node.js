@@ -1,6 +1,4 @@
 window.addEventListener('load',()=>{
-    document.getElementById("myComboBox").addEventListener("change", () => {
-      });
     let selected = document.getElementById("myComboBox");
     selected.selectedIndex = 0;
     let submitButton = document.getElementById("upload");
@@ -59,6 +57,10 @@ window.addEventListener('load',()=>{
                   progressBar.style.width = percent
                   text.innerText = percent
                   console.log(percent) 
+                  if(percent == "100%")
+                  {
+                    text.innerText = "Executing..."
+                  }
                 }
               }, false)
               return xhr

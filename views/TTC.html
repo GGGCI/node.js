@@ -83,30 +83,6 @@
 						color: rgb(0,255,255);
 						mix-blend-mode: difference;
 					}
-  
-					@keyframes loading {
-						0% { width: 0 }
-						100% { width: 100% }
-					}
-					@keyframes percentage {
-						0% { content: "0%"}
-						5% { content: "5%"}
-						10% { content: "10%"}
-						20% { content: "20%"}
-						30% { content: "30%"}
-						40% { content: "40%"}
-						50% { content: "50%"}
-						60% { content: "60%"}
-						70% { content: "70%"}
-						80% { content: "80%"}
-						90% { content: "90%"}
-						95% { content: "95%"}
-						96% { content: "96%"}
-						97% { content: "97%"}
-						98% { content: "98%"}
-						99% { content: "99%"}
-						100% { content: "100%"}
-					}
 			</style>
 	</head>
 	<body class="is-preload">
@@ -134,7 +110,7 @@
 						<header>
 							<div class="inner">
 								<h2>使用說明</h2>
-								1. 上傳CC、KEY、ENCDATA.ZIP，假如沒有要換key或更換資料庫，其中CC、KEY、ENCDATA.ZIP只要上傳過一次即可
+								1. 上傳CC、KEY、RFKEY、KSKEY、ENCDATA.ZIP，假如沒有要換key或更換資料庫，其中CC、KEY、RFKEY、KSKEY、ENCDATA.ZIP只要上傳過一次即可
 								<br><br>
 								2. 之後選擇下拉式選單要執行的選項，然後依據選單所提示要上傳的CTS.ZIP或INSERT.ZIP並按下UPLOAD&RUN按鈕並"耐心"等待
 								<br><br>
@@ -156,6 +132,22 @@
 										  Upload Key
 										</span>
 										<input type="file" name="key" style="visibility:hidden; width: 0;" id="fileInput2"onchange="checkFileInput(2)">
+										<span></span>
+										<span></span>
+									  </label>
+									  <label class="upload" id="rfkey">
+										<span class="custom_button" >
+										  Upload RFKey
+										</span>
+										<input type="file" name="rfkey" style="visibility:hidden; width: 0;" id="fileInput5"onchange="checkFileInput(5)">
+										<span></span>
+										<span></span>
+									  </label>
+									  <label class="upload" id="kskey">
+										<span class="custom_button" >
+										  Upload KSKey
+										</span>
+										<input type="file" name="kskey" style="visibility:hidden; width: 0;" id="fileInput6"onchange="checkFileInput(6)">
 										<span></span>
 										<span></span>
 									  </label>
@@ -211,7 +203,7 @@
 										</script>
 
 									<script>
-									  let count = [0,0,0,0];
+									  let count = [0,0,0,0,0,0];
 									  let select = document.getElementById("myComboBox");     
 									  function checkFileInput(inputNumber) {
 										var selectedOption = select.options[select.selectedIndex].value;
@@ -279,9 +271,13 @@
 									var fileInput2 = document.getElementById("fileInput2");
 									var fileInput3 = document.getElementById("fileInput3");
 									var fileInput4 = document.getElementById("fileInput4");
+									var fileInput5 = document.getElementById("fileInput5");
+									var fileInput6 = document.getElementById("fileInput6");
 									let upload = document.getElementById("upload");
 									let labelCC = document.getElementById("CC");
 									let labelkey = document.getElementById("key");
+									let labelrfkey = document.getElementById("rfkey");
+									let labelkskey = document.getElementById("kskey");
 							
 									let downloadButton = document.getElementById("downloadBtn");
 									const customButton = document.getElementById("insert.zip")
@@ -299,11 +295,15 @@
 										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
+										labelrfkey.style.visibility = "visible";
+										labelkskey.style.visibility = "visible";
 									
 										fileInput1.disabled = false;
 										fileInput2.disabled = false;
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
+										fileInput5.disabled = false;
+										fileInput6.disabled = false;
 									} else if (selectedOption === "count") {
 										downloadBtn.disabled = true;
 															
@@ -320,11 +320,15 @@
 										}
 										labelCC.style.visibility = "visible";
 										labelkey.style.visibility = "visible";
+										labelrfkey.style.visibility = "visible";
+										labelkskey.style.visibility = "visible";
 									
 										fileInput1.disabled = false;
 										fileInput2.disabled = false;
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
+										fileInput5.disabled = false;
+										fileInput6.disabled = false;
 									} else if (selectedOption === "insert") {
 										customButton.textContent = 'upload Insert.zip';
 										downloadBtn.disabled = true;
@@ -339,11 +343,15 @@
 										}
 										labelCC.style.visibility = "hidden";
 										labelkey.style.visibility = "hidden";
+										labelrfkey.style.visibility = "hidden";
+										labelkskey.style.visibility = "hidden";
 								
 										fileInput1.disabled = true;
 										fileInput2.disabled = true;
 										fileInput3.disabled = false;
 										fileInput4.disabled = false;
+										fileInput5.disabled = true;
+										fileInput6.disabled = true;
 									}
 								  }
 								</script>

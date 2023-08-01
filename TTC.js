@@ -1,21 +1,12 @@
-const http = require("http");
-const fs = require("fs");
-const qs = require("querystring");
 const path = require("path");
-const unzipper = require('unzipper');
-const port = 3000;
+const port = 8000;
 const ip = "127.0.0.1";
 const express = require('express');
 const multer = require('multer');
 const app = express();
 const bodyParser = require('body-parser');
-let count = 0;
-const util = require('node:util');
-const exec = util.promisify(require('node:child_process').exec);
-
-
-//const { exec, spawn, execSync } = require("child_process");
-
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
@@ -34,13 +25,15 @@ app.get('', (req, res) =>{
   res.sendFile(path.join(__dirname,'views','TTC.html'));
 });
 
-app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"},{name:"cts.zip"}]), async (req, res) => {
+app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:'rfkey'},{name:'kskey'},{name:"encData.zip"},{name:"cts.zip"}]), async (req, res) => {
   try{
     const uploadedFiles = req.files.CC;
     const key = req.files.key;
+    const rfkey = req.files.rfkey;
+    const kskey = req.files.kskey;
     const encData = req.files["encData.zip"];
     const cts = req.files["cts.zip"]; 
-
+    
     let selectedValue = "query";
     selectedValue = req.body.select;
     is_fileinput3 = req.body.is_fileinput3;
@@ -56,6 +49,8 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
     }
     console.log('CC message:',uploadedFiles);
     console.log('key:',key);
+    console.log('rfkey:',rfkey);
+    console.log('kskey:',kskey);
     console.log('encData:',encData);
     console.log('cts:',cts);
 
@@ -118,9 +113,7 @@ app.post('/uploads', upload.fields([{name:"CC"},{name:'key'},{name:"encData.zip"
   }catch(error){
     console.error(error);
   }
-  console.log("prepare to query"); 
-  console.log("query success uploaded");
-  //sudo LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-14/lib/ ./uploads/server -e
+  console.log("exec success");
  });
   
 app.get('/downloadquery', (req, res)=>{
