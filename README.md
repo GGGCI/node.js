@@ -7,5 +7,6 @@ sudo apt install -y nodejs
 sudo apt install npm
 npm install
 node TTC.js
+然後CMakeLists.txt是備份可以不用理他~
 ```
 
