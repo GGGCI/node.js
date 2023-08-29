@@ -12,5 +12,5 @@ sudo apt install npm
 npm install
 node TTC.js
 ```
-Then CMakeLists.txt is a backup, you can ignore it~
+The CMakeLists.txt is a backup, you can ignore it~
 
