@@ -1,12 +1,18 @@
 # node.js
+## How to compile
 ```
-在https://github.com/HubertTW/tfhe-police/tree/main 專案內執行生成server
-然後把server 放進uploads資料夾內(在當下目錄mkdir uploads/)
-
+Generated server in the https://github.com/HubertTW/tfhe-police/tree/main project
+Then put the server into the uploads folder (in the current directory
+```
+cd node.js
+mkdir uploads/
+```)
+```
 sudo apt install -y nodejs
 sudo apt install npm
 npm install
 node TTC.js
-然後CMakeLists.txt是備份可以不用理他~
+```
+Then CMakeLists.txt is a backup, you can ignore it~
 ```
 
